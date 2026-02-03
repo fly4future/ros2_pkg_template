@@ -1,0 +1,10 @@
+*.swp
+*.swo
+
+__pycache__
+*/.tmuxinator.yml
+
+.cache
+.vscode
+
+compile_commands.json

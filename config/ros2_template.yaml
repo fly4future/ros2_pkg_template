@@ -1,0 +1,7 @@
+# rates of timers in Hz
+rate:
+  publish_hello_world: 1.0  # [Hz]
+  check_permit: 1.0     # [Hz]
+
+# time delay before the client calls the server to start listening
+delay_before_listening: 5 # [s]

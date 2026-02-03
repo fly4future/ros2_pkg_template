@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+
+  <name>f4f_ros2_template</name>
+  <version>2.0.0</version>
+  <description>F4F ROS2 Template</description>
+
+  <maintainer email="your.mail@fly4future.com">Your Name</maintainer>
+
+  <license>BSD 3-Clause</license>
+
+  <author email="your.mail@fly4future.com">Your Name</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
+  <depend>mrs_lib</depend>
+  <depend>std_msgs</depend>
+
+  <depend>launch</depend>
+  <depend>launch_ros</depend>
+
+  <!-- Linters -->
+  <test_depend>ament_cmake_clang_format</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+</package>
