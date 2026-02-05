@@ -88,6 +88,20 @@ rclcpp_components_register_nodes(F4FROS2Template_ROS2TemplateComponent
 )
 
 ## --------------------------------------------------------------
+## |                           testing                          |
+## --------------------------------------------------------------
+
+if(ENABLE_TESTS)
+
+  message(WARNING "TODO")
+  find_package(ament_cmake_clang_format REQUIRED)
+  ament_clang_format(CONFIG_FILE "${PROJECT_SOURCE_DIR}/.clang-formatt")
+  find_package(ament_cmake_xmllint REQUIRED)
+  ament_xmllint()
+
+endif()
+
+## --------------------------------------------------------------
 ## |                           install                          |
 ## --------------------------------------------------------------
 

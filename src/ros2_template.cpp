@@ -56,10 +56,10 @@ private:
   rclcpp::Node::SharedPtr  node_;
   rclcpp::Clock::SharedPtr clock_;
 
-  rclcpp::CallbackGroup::SharedPtr cbkgrp_sub_;
-  rclcpp::CallbackGroup::SharedPtr cbkgrp_client_;
-  rclcpp::CallbackGroup::SharedPtr cbkgrp_server_;
-  rclcpp::CallbackGroup::SharedPtr cbkgrp_timer_;
+  rclcpp::CallbackGroup::SharedPtr cbkgrp_subs_;
+  rclcpp::CallbackGroup::SharedPtr cbkgrp_clients_;
+  rclcpp::CallbackGroup::SharedPtr cbkgrp_servers_;
+  rclcpp::CallbackGroup::SharedPtr cbkgrp_timers_;
 
   std::string _uav_name_;
   bool        is_initialized_ = false;
@@ -121,10 +121,10 @@ void ROS2Template::initialize() {
   node_  = this->this_node_ptr();
   clock_ = node_->get_clock();
 
-  cbkgrp_sub_    = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-  cbkgrp_client_ = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-  cbkgrp_server_ = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-  cbkgrp_timer_  = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+  cbkgrp_subs_    = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+  cbkgrp_clients_ = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+  cbkgrp_servers_ = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+  cbkgrp_timers_  = this_node().create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   mrs_lib::ParamLoader param_loader(node_);
 
@@ -147,7 +147,7 @@ void ROS2Template::initialize() {
   shopts.node_name                           = "ROS2Template";
   shopts.threadsafe                          = true;
   shopts.autostart                           = true;
-  shopts.subscription_options.callback_group = cbkgrp_sub_;
+  shopts.subscription_options.callback_group = cbkgrp_subs_;
 
   sub_hello_world_ = mrs_lib::SubscriberHandler<std_msgs::msg::String>(shopts, "~/hello_world_in", &ROS2Template::callbackSubHelloWorld, this);
 
@@ -163,7 +163,7 @@ void ROS2Template::initialize() {
 
   opts_autostart.node           = node_;
   opts_autostart.autostart      = true;
-  opts_autostart.callback_group = cbkgrp_timer_;
+  opts_autostart.callback_group = cbkgrp_timers_;
 
   // Use local scope {} to reuse fuction name for init and to clean resources after init
   {
@@ -175,7 +175,7 @@ void ROS2Template::initialize() {
 
   opts_no_autostart.node           = node_;
   opts_no_autostart.autostart      = false;
-  opts_no_autostart.callback_group = cbkgrp_timer_;
+  opts_no_autostart.callback_group = cbkgrp_timers_;
 
   {
     std::function<void()> callback_fn = std::bind(&ROS2Template::timerPublishHelloWorld, this);
@@ -186,16 +186,16 @@ void ROS2Template::initialize() {
 
   server_start_publishing_ = mrs_lib::ServiceServerHandler<std_srvs::srv::Trigger>(
       node_, "~/start_publishing_in", std::bind(&ROS2Template::callbackStartPublishing, this, std::placeholders::_1, std::placeholders::_2),
-      rclcpp::SystemDefaultsQoS(), cbkgrp_server_);
+      rclcpp::SystemDefaultsQoS(), cbkgrp_servers_);
 
   server_stop_publishing_ = mrs_lib::ServiceServerHandler<std_srvs::srv::Trigger>(
       node_, "~/stop_publishing_in", std::bind(&ROS2Template::callbackStopPublishing, this, std::placeholders::_1, std::placeholders::_2),
-      rclcpp::SystemDefaultsQoS(), cbkgrp_server_);
+      rclcpp::SystemDefaultsQoS(), cbkgrp_servers_);
 
   // | ------------------------- clients ------------------------ |
 
-  client_start_publishing_ = mrs_lib::ServiceClientHandler<std_srvs::srv::Trigger>(node_, "~/start_publishing_out", cbkgrp_client_);
-  client_stop_publishing_  = mrs_lib::ServiceClientHandler<std_srvs::srv::Trigger>(node_, "~/stop_publishing_out", cbkgrp_client_);
+  client_start_publishing_ = mrs_lib::ServiceClientHandler<std_srvs::srv::Trigger>(node_, "~/start_publishing_out", cbkgrp_clients_);
+  client_stop_publishing_  = mrs_lib::ServiceClientHandler<std_srvs::srv::Trigger>(node_, "~/stop_publishing_out", cbkgrp_clients_);
 
   // | --------------------- finish the init -------------------- |
 
@@ -363,7 +363,7 @@ bool ROS2Template::callbackStopPublishing([[maybe_unused]] const std::shared_ptr
 // // --------------------------------------------------------------
 
 
-}  // namespace f4f_ros2_template
+} // namespace f4f_ros2_template
 
 #include <rclcpp_components/register_node_macro.hpp>
 RCLCPP_COMPONENTS_REGISTER_NODE(f4f_ros2_template::ROS2Template)

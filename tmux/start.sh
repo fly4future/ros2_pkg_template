@@ -7,7 +7,7 @@ SCRIPTPATH=`dirname $SCRIPT`
 cd "$SCRIPTPATH"
 
 export TMUX_SESSION_NAME=ros2_template
-export TMUX_SOCKET_NAME=f4f
+export TMUX_SOCKET_NAME=mrs
 
 # start tmuxinator
 tmuxinator start -p ./session.yaml

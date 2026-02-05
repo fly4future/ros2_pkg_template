@@ -1,11 +1,12 @@
 # do not modify these
 root: ./
 name: ros2_template
-socket_name: f4f
+socket_name: mrs
 attach: false
 startup_window: status
-pre_window: export UAV_NAME=uav1;
-            export RMW_IMPLEMENTATION=rmw_zenoh_cpp
+pre_window: 
+  - export UAV_NAME=uav1
+  - export RMW_IMPLEMENTATION=rmw_zenoh_cpp
 windows:
   - router:
       layout: tiled

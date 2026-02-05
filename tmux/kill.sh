@@ -6,7 +6,7 @@ SCRIPT=$(readlink -f $0)
 SCRIPTPATH=`dirname $SCRIPT`
 cd "$SCRIPTPATH"
 
-export TMUX_SESSION_NAME=simulation
+export TMUX_SESSION_NAME=ros2_template
 export TMUX_SOCKET_NAME=mrs
 
 # just attach to the session
