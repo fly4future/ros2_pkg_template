@@ -1,85 +1,223 @@
-# ExampleWaypointFlier ROS2 example
+# F4F Guidelines for ROS2 and Coding Practices
 
-This package was created as an example of how to write ROS components.
-The package is written in C++ and features custom MRS libraries and msgs.
+This document aims to help you standardise your work, such that your colleages can more easily navigate your code in order to revise or reuse it. This guide will help you to setup your environment, workflow, and suggest best coding practices. It'll cover most essential parts you'll need for your work: `Git` `ROS2` `C++` `MRS UAV System`.
 
-## Functionality
+This repository also provides a template **ROS2 Package** which you can use to quickly start your new project. It contains all the necessary components and runs a simple **TMUX** session with a basic ros component (nodelet). The source code provides an overview of how to use [MRS Lib](https://ctu-mrs.github.io/docs/features/libraries/) features that makes using `ROS2` a bit more managaeble. To use this template to create a new repository, visit [this Github page](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 
-* Desired waypoints are loaded as a matrix from config file
-* Service `fly_to_first_waypoint` prepares the UAV by flying to the first waypoint
-* Service `start_waypoint_following` causes the UAV to start tracking the waypoints
-* Service `stop_waypoint_following` stops adding new waypoints. Flight to the current waypoint is not interrupted.
+## Prerequisities
 
-## How to start
+You should have a computer with **Ubuntu 24.04** installed. You might also need **Windows** or older **Ubuntu 20.04** for `ROS1`. If that happens, configure your PC for dual/tripple boot. You can ask for a Windows key and someone will probably have a boot device with Ubuntu.
 
-```bash
-./tmux/start.sh
+We also have an extensive [documentation](https://ctu-mrs.github.io/docs/introduction) centered mostly around the **MRS UAV System**, but also including other usefull tutorials.
+
+If you're feeling brave and you want a superb environment for coding workflow, ask around about Tomáš Báča's [Linux Setup](https://github.com/klaxalk/linux-setup) (branch 24.04). Or setup your `I3` or similar environment by yourself and start using `vim` for some basic code editing.
+
+
+## Git setup
+
+### Account and SSH Key
+
+Create a [GitHub](https://github.com/) account using your company email address `name@fly4future.com` and set your `git config --global user.email "name@fly4future.com"`.
+
+You should generate an **SSH Key** if you don't have one yet and link it to your account.
+```
+ssh-keygen -t ed25519 -C "name@fly4future.com"
+```
+When it says *"Enter file in which to save the key"* just press **Enter**. When it asks for a passphrase, you can press **Enter** twice to leave it empty or add a password for extra security. Once that's done, copy your public key. It starts with *ssh* and ends with your email.
+
+```
+cat ~/.ssh/id_ed25519.pub
 ```
 
-Then, call the services prepared in the terminal window either by:
-
-1. Pressing tmux binding (`Ctrl + b` or `Ctrl + a`)
-2. Pressing the down arrow to change to the terminal below
-3. Pressing the up arrow to bring up the prepared terminal command
-
-Or typing the following command into a terminal connected to the ROS server:
+Go to you [GitHub SSH Setting](https://github.com/settings/keys), click **New SSH Key** and paste it there. Run this to verify that **GitHub** recognizes you.
 ```
-ros2 service call /$UAV_NAME/waypoint_flier/fly_to_first_waypoint std_srvs/srv/Trigger {}
+ssh -T git@github.com
 
-For navigating between terminals use `shift + arrow keys` and for navigating between panes of terminal use `ctrl + k' to move horizontally between panes and 'ctrl + l` to move vertically.
+-> Hi [Your Username]! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
-## Package structure
+### Global Gitignore
 
-See [ROS packages](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-Your-First-ROS2-Package.html)
+Next you can setup your global gitignore in your home directory for most common items.
+```
+touch .gitignore_global
+git config --global core.excludefile ~/.gitignore_global
+```
 
-* `src` directory contains all source files
-* `include` directory contains all header files. It is good practice to separate them from source files.
-* `launch` directory contains `.py` files which are used to parametrize the components. Command-line arguments, as well as environment variables, can be loaded from the launch files, the component can be put into the correct namespace (each UAV has its namespace to allow multi-robot applications), config files are loaded, and parameters passed to the component. See [.py files](https://docs.ros.org/en/foxy/How-To-Guides/Launching-composable-nodes.html)
-* `config` directory contains parameters in `.yaml` files. See [.yaml files](https://docs.ros.org/en/jazzy/How-To-Guides/Using-ros2-param.html)
-* `package.xml` defines properties of the package, such as package name and dependencies. See [package.xml](https://docs.ros.org/en/eloquent/Tutorials/Creating-Your-First-ROS2-Package.html)
+Open the file and paste there the following items. Feel free to add/remove any.
+```
+*.swp
+*.swo
 
-## Example features
+__pycache__
+*/.tmuxinator.yml
 
-* [Component](https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Writing-a-Composable-Node.html) initialization
-* [Subscriber, publisher](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Publisher-And-Subscriber.html), and [timer](https://docs.ros2.org/foxy/api/rclcpp/classrclcpp_1_1TimerBase.html) initialization
-* [Service servers and clients]https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Writing-an-Action-Server-Client/Cpp.html) initialization
-* Loading [parameters](https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Monitoring-For-Parameter-Changes-CPP.html) with `mrs_lib::ParamLoader` class
-* Loading [Eigen matrices](https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html) with `mrs_lib::ParamLoader` class
-* Checking nodelet initialization status in every callback
-* Checking whether subscribed messages are coming
-* Throttling [text output](https://docs.ros.org/en/jazzy/Tutorials/Demos/Logging-and-logger-configuration.html) to a terminal
-* [Thread-safe access](https://en.cppreference.com/w/cpp/thread/mutex) to variables using `std::lock_scope()`
-* Using `ConstPtr` when subscribing to a topic to avoid copying large messages
-* Storing and accessing matrices in `Eigen` classes
-* [Remapping topics](https://docs.ros.org/en/foxy/How-To-Guides/Launch-file-different-formats.html) in the launch file
+.cache
+.vscode
 
-## Coding style
+compile_commands.json
+```
 
-For easy orientation in the code, we have agreed to follow the [ROS C++ Style Guide](http://wiki.ros.org/CppStyleGuide) when writing our packages.
-Also check out our general [C++ good/bad coding practices tutorial](https://ctu-mrs.github.io/docs/introduction/c_to_cpp.html).
+### Git Folder
 
-### Naming variables
+We suggest to create a git folder for all your cloned repositories/packages from where you can link them to your existing workspaces.
+```
+$HOME/
+└── git/
+    │── your_git_repo_1
+    │── your_git_repo_2
+    └── ...
+```
+You can then symlink your package into your workspace source folder.
+```
+cd your_ws/src
 
-* Member variables are distinguished from local variables by underscore at the end:
-  - `position_x` -  local variable
-  - `position_x_` -  member variable
-* Also, we distinguish parameters which are loaded as parameters by underscore at the beginning
-* Descriptive variable names are used. The purpose of the variable should be obvious from the name.
-  - `sh_odometry_` - member subscriber handler to uav odometry msg type
-  - `pub_reference_` - member publisher hanadler of reference msg type
-  - `srv_server_start_waypoints_following_` - member service server for starting following of waypoints
-  - `ExampleWaypointFlier::timerCheckSubscribers()` - callback of timer which checks subscribers
-  - `mutex_current_waypoint_` - mutex locking access to variable containing current UAV waypoint
+ln -sf ~/git/your_git_repo_1 .
+```
 
-### Good practices
+## ROS2 Setup
+Now we'll go through a TLDR steps to configure your `ROS2` natively. You can follow the official `ROS2` tutorials or the `CTU-MRS` documentation mentioned above for more.
 
-* [Nodelet everything!](https://www.clearpathrobotics.com/assets/guides/ros/Nodelet%20Everything.html) Nodelets compared to nodes do not need to send whole messages. Multiple nodelets running under the same nodelet manager form one process and messages can be passed as pointers.
-* Do not use raw pointers! Smart pointers from `<memory>` free resources automatically, thus preventing memory leaks.
-* Lock access to member variables! Nodelets are multi-thread processes, so it is our responsibility to make our code thread-safe.
-  - Use `c++17` `scoped_lock` which unlocks the mutex after leaving the scope. This way, you can't forget to unlock the mutex.
-* When a component is initialized, the method `intialize()` is called. In the method, the subscribers are initialized, and callbacks are bound to them. The callbacks can run even before the `intialize()` method ends, which can lead to some variables being still not initialized, parameters not loaded, etc. This can be prevented by using an `is_initialized_`, initializing it to `false` at the beginning of `intialize()` and setting it to true at the end. Every callback should check this variable and continue only when it is `true`.
-* Use `mrs_lib::ParamLoader` class to load parameters from launch files and config files. This class checks whether the parameter was actually loaded, which can save a lot of debugging. Furthermore, loading matrices into config files becomes much simpler.
-* For printing debug info to terminal use `RCLCPP_INFO()`, `RCLCPP_WARN()`, `RCLCPP_ERROR()` macros. Do not spam the terminal by printing a variable every time a callback is called, use for example `RCLCPP_INFO_THROTTLE(node_->get_logger(), *clock_, 1000, "dog")` to print *dog* not more often than every second. Other animals can also be used for debugging purposes.
-* If you need to execute a piece of code periodically, do not use sleep in a loop, or anything similar. The ROS API provides `mrs_lib::TheadTimer` (or native but greedy `mrs_lib::ROSTimer`) class for this purposes, which executes a callback every time the timer expires.
-* Always check whether all subscribed messages are coming. If not, print a warning. Then you know the problem is not in your nodelet and you know to look for the problem in topic remapping or the node publishing it.
+### Install ROS2 Jazzy
+```
+sudo apt-get -y install software-properties-common curl bash
+
+curl https://ctu-mrs.github.io/ppa2-stable/add_ros_ppa.sh | bash
+
+sudo apt-get -y install ros-jazzy-desktop-full ros-dev-tools
+```
+
+### Install MRS UAV System
+```
+curl https://ctu-mrs.github.io/ppa2-stable/add_ros_ppa.sh | bash
+
+sudo apt install ros-jazzy-desktop-full
+
+curl https://ctu-mrs.github.io/ppa2-stable/add_ppa.sh | bash
+
+sudo apt install ros-jazzy-mrs-uav-system-full
+```
+
+Set Zenoh to be the used RMW implementation. The Zenoh RMW is used by default in our example simulation sessions. Add to `~/.bashrc` (or `~/.zshrc`):
+```
+export RMW_IMPLEMENTATION="rmw_zenoh_cpp"
+```
+
+Source `~/.bashrc` (or `~/.zshrc`):
+```
+source ~/.bashrc
+```
+
+Start the example simulation session to confirm that everything installed properly.
+
+```
+cd /opt/ros/jazzy/share/mrs_multirotor_simulator/tmux/mrs_one_drone
+
+./start.sh
+```
+
+### Setup Your Workspace
+
+To compensate some `colcon build` drawbacks and allow you to use `cb` command anywhere in the workspace, get the following aliases.
+```
+cd ~/git
+
+git clone git@github.com:ctu-mrs/mrs_uav_development.git
+
+cd mrs_uav_development
+
+git checkout ros2
+```
+Prepare your workspace
+```
+mkdir -p ~/ros2_ws/src
+```
+
+Add the following to your `~/.bashrc` (or `~/.zshrc`):
+```
+# workspace to be sourced
+export ROS_WORKSPACE="$HOME/ros2_ws"
+
+# ROS DEVELOPMENT
+# * source this after exporting $ROS_WORKSPACE="<path to your workspace>"
+# * workspace is automatically sourced and the sourcing is cached
+# * to force-source a workspace after adding new packages, call `presource_ros`
+source $HOME/git/mrs_uav_development/shell_additions/shell_additions.sh
+```
+
+These shell additions allow for faster compilation, as it cashes parts that take long to build (mostly python parts). This cache is then being presourced, but adding new packages that require some of these components to be rebuild might require to call `presource_ros` in the workspace.
+
+Clone an existing ROS2 package and link it to your workspace.
+```
+cd ~/git
+
+git clone git@github.com:ctu-mrs/mrs_core_examples.git
+
+cd ~/ros2_ws/src
+
+ln -sf ~/git/mrs_core_examples/cpp/example_waypoint_flier
+```
+
+### Configure Colcon
+
+Before building the workspace, we'll setup some flags that will be used with each `colcon build` using `mixin`.
+```
+sudo apt install python3-colcon-mixin
+
+colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
+colcon mixin add mrs https://raw.githubusercontent.com/ctu-mrs/colcon_mixin/refs/heads/master/index.yaml
+colcon mixin update
+```
+
+Create a config file and copy the following build flags.
+```
+cd ~/ros2_ws
+
+touch colcon_defaults.yaml
+```
+```
+build:
+  symlink-install: True     # link configs and other files to install folder
+  continue-on-error: True   # build the rest of the packages if one fails
+  executor: parallel        # enable parallel package building
+  parallel-workers: 4       # maximum packages build in parallel (increase if good CPU)
+  mixin:
+    - rel-with-deb-info     # display more info when failed
+    - compile-commands      # generate compile commands
+```
+
+By default, `colcon` uses a monochromatic output that is poorly readable. To add some colors and order, install the following extenstion.
+```
+pip install git+https://github.com/cottsay/colcon-ansi-colors-example --break-system-packages
+```
+
+Put the build option to your `~/.bashrc` (or `~/.zshrc`) to use it by default.
+```
+export COLCON_DEFAULT_OUTPUT_STYLE=catkin_tools
+```
+
+Open a new terminal and `source ~/.bashrc`.
+
+### Build the Workspace
+
+Now you can build your workspace and check, if all the configuration works.
+```
+cd ~/ros2_ws/
+
+colcon init
+
+colcon build
+```
+
+You should be able to call just `cb` out of any subdirectory of your workspace.
+
+Since you've already put the path to your workspace to your `~/.bashrc` (or `~/.zshrc`), it should `source install/setup.bash` (or `source install/setup,ths`) automatically when you open a new terminal.
+
+### Adding a New Workspace
+
+In `ROS2`, if you source a new workspace, it will be automatically linked with the previous one and it will adopt its dependencies, but will not refresh them if you make any changes. That can very well compromise your new workspace and you might be forced to clean the workspace often. Therefore we encourage you to modify the path to your new workspace in `~/.bashrc` (or `~/.zshrc`) if you create a new one. The `shell_additions` will take care of the sourcing for you.
+
+```
+# workspace to be sourced
+export ROS_WORKSPACE="$HOME/new_ros2_ws"
+```
