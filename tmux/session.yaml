@@ -15,7 +15,8 @@ windows:
   - f4f_ros2_template:
       layout: tiled
       panes:
-        - ros2 launch f4f_ros2_template ros2_template.launch.py
+        # - ros2 launch f4f_ros2_template ros2_template.launch.py
+        - ros2 launch f4f_ros2_template ros2_template.launch.xml
         - sleep 3; ros2 topic echo /$UAV_NAME/ros2_template/greetings
         - 'history -s ros2 service call /$UAV_NAME/ros2_template/allow_publishing std_srvs/srv/Trigger {}'
         - 'history -s ros2 service call /$UAV_NAME/ros2_template/ban_publishing std_srvs/srv/Trigger {}'
