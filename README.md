@@ -361,3 +361,56 @@ You can find (and should read) general good coding practices in our [documentati
 - Do not push unbuild or untested code to master branches on Git (or main devel branches)! Doing so can ruin experiments and drones at best!
 
 - If you cannot figure something out, ask in **Software** Google Spaces for help. If you figure something out that did not work before, note somewhere how you solved it and you can share it in chat. There is a high chance that you (or someone else) will have to do the same thing agian.
+
+## About this Package
+### How to run this Package
+
+If you want to try running this package, clone it and build it in your `ROS2` workspace as usual.
+```
+cd ~/git
+
+git clone git@github.com:fly4future/f4f_ros2_template.git
+
+cd ~/ros2_ws/src
+
+ln -sf ~/git/f4f_ros2_template .
+
+cb
+```
+
+Then run the included `TMUX` session:
+```
+cd f4f_ros2_template/tmux
+
+./start.sh
+```
+
+You should see 4 window split layout. The top left window is running the main node, telling you that a permit to start publishing is false. If you jump to the window below (using either `TMUX` binding `Ctrl + a`/`Ctrl + b` or from Linux setup `Ctrl + h,j,k,l`) and pull the command from history with `^`, you can allow publishing using a trigger service call. The top right window is echoing the publishing topic and you should see a message receiving. To stop the publishing, use the service call prepared on the last remaining window.
+
+To kill the session pres `Ctrl + a` then `k` for kill then `9` for this session.
+
+### How to use this Package
+
+This package is primarily intended to be used as a helper template to start your new `ROS2` package. On the [GitHub](https://github.com/fly4future/f4f_ros2_template) page you can choose the option to **Use this template** -> **Create a new repository** in order to create a brand new repository with fresh history, but containing everything in this package. You will have all the basic structure that a proper **Fly4Future** `ROS2` package should have. You are free to modify whatever you want. This serves you just as a kit to get you started more quickly.
+
+
+### What's inside this Package
+
+We higly encourage you to go through the files to see how we use `ROS2` with `MRS UAV System` and other useful features.
+
+#### ros2_template.cpp
+This file contains the nodelet with all the basic methods you might need. If you create your own nodelet, you should follow the same structure and use the `mrs_lib` wrappers, to make your life easier.
+
+Notice the `initialize()` method where everything is setup. Take a look how to use `param_loader` to load parameters from a config file, how to define **subscriber, publishers, timers, servers, and clinets** using the **MRS library handlers**. Other features to look for:
+
+- **subscriber** callback and `getMsg()`
+- **timers** with and without **autostart**
+- **callback group** types and where to use **mutex**
+- **service** callback with **request/response**
+- **RCLCPP_IFNO** and other printing functions
+
+#### Launch files
+`Python` launch files ofer a bit more options than `XML`, but they are not very userfriendly. It is often sufficient to use a simpler `XML` structure that is easier to edit during the experiments. You can compare both options inside this package.
+
+#### TMUX
+Launching multiple nodelets with different config and setting is often necessary and `TMUX` sessions are a great tool for that. Take a look inside the **tmux** folder and `session.yaml` how you can launch `ROS2` nodelets, export parameters, and prepare commands. You can do much more than that, like launching `RViz` and different tools, etc. Visit this [Waypoint Flier](https://github.com/ctu-mrs/mrs_core_examples/tree/ros2/cpp/example_waypoint_flier) example from **MRS** to see more.

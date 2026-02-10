@@ -32,8 +32,6 @@
 
 //}
 
-/* defines //{ */
-
 #if USE_ROS_TIMER == 1
 typedef mrs_lib::ROSTimer TimerType;
 #else
