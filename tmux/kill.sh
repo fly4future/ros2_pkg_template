@@ -3,11 +3,11 @@
 # Absolute path to this script. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f $0)
 # Absolute path this script is in. /home/user/bin
-SCRIPTPATH=`dirname $SCRIPT`
-cd "$SCRIPTPATH"
+SCRIPT_PATH=`dirname $SCRIPT`
+cd "$SCRIPT_PATH"
 
-export TMUX_SESSION_NAME=ros2_template
-export TMUX_SOCKET_NAME=mrs
+export TMUX_SESSION_NAME=ros2_pkg_template
+export TMUX_SOCKET_NAME=f4f
 
 # just attach to the session
 tmux -L $TMUX_SOCKET_NAME split-window -t $TMUX_SESSION_NAME

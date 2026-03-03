@@ -4,7 +4,10 @@
 __pycache__
 */.tmuxinator.yml
 
+# Editor folders and OS metadata
 .cache
 .vscode
-
 compile_commands.json
+.idea/
+.DS_Store
+Thumbs.db

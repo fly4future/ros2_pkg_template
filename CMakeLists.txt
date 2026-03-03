@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(f4f_ros2_template)
+project(ros2_pkg_template)
 
 # --- Export & Symlink compile_commands.json ---
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -7,8 +7,8 @@ set(SOURCE_JSON "${CMAKE_SOURCE_DIR}/compile_commands.json")
 set(BINARY_JSON "${CMAKE_BINARY_DIR}/compile_commands.json")
 
 if(EXISTS ${BINARY_JSON} AND NOT EXISTS ${SOURCE_JSON})
-    message(STATUS "Symlinking compile_commands.json to source directory")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${BINARY_JSON} ${SOURCE_JSON})
+  message(STATUS "Symlinking compile_commands.json to source directory")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${BINARY_JSON} ${SOURCE_JSON})
 endif()
 
 # set the correct standards
@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(USE_ROS_TIMER 0)
 
 if(${USE_ROS_TIMER})
-  MESSAGE(WARNING "[f4f_ros2_template]: Compiling with ROS Timers. This can cause high CPU load in runtime.")
+  message(WARNING "[ros2_pkg_template]: Compiling with ROS Timers. This can cause high CPU load in runtime.")
 endif()
 
 # set the compile options to show code warnings
@@ -51,7 +51,7 @@ find_package(std_srvs REQUIRED)
 ## --------------------------------------------------------------
 
 # Define the shared library created by this package
-add_library(F4FROS2Template_ROS2TemplateComponent SHARED)
+add_library(ROS2PKGTemplate_ROS2TemplateComponent SHARED)
 
 # Add sources to the shared library
 # - Source files should be listed in private section.
@@ -60,9 +60,9 @@ add_library(F4FROS2Template_ROS2TemplateComponent SHARED)
 #     handle them:
 #     - public headers: `example_plugin_manager`
 #     - private headers: `example_waypoint_flier_native`
-target_sources(F4FROS2Template_ROS2TemplateComponent
+target_sources(ROS2PKGTemplate_ROS2TemplateComponent
   PRIVATE
-    "src/ros2_template.cpp"
+  "src/ros2_template.cpp"
 )
 
 # Link to the dependencies used by the library
@@ -72,19 +72,19 @@ target_sources(F4FROS2Template_ROS2TemplateComponent
 # `<package>::<package>` that include the whole library.
 # Message libraries unfortunately do not provide this target and users must link
 # against: `${<package>_TARGETS}`.
-target_link_libraries(F4FROS2Template_ROS2TemplateComponent
+target_link_libraries(ROS2PKGTemplate_ROS2TemplateComponent
   PRIVATE
-    rclcpp::rclcpp
-    rclcpp_components::component
-    mrs_lib::mrs_lib
-    ${mrs_msgs_TARGETS}
-    ${std_srvs_TARGETS}
+  rclcpp::rclcpp
+  rclcpp_components::component
+  mrs_lib::mrs_lib
+  ${mrs_msgs_TARGETS}
+  ${std_srvs_TARGETS}
 )
 
 # Register components defined in this library.
 # rclcpp_components_register_nodes(<library> <names of components>...)
-rclcpp_components_register_nodes(F4FROS2Template_ROS2TemplateComponent
-  "f4f_ros2_template::ROS2Template"
+rclcpp_components_register_nodes(ROS2PKGTemplate_ROS2TemplateComponent
+  "ros2_pkg_template::ROS2Template"
 )
 
 ## --------------------------------------------------------------
@@ -95,7 +95,7 @@ if(ENABLE_TESTS)
 
   message(WARNING "TODO")
   find_package(ament_cmake_clang_format REQUIRED)
-  ament_clang_format(CONFIG_FILE "${PROJECT_SOURCE_DIR}/.clang-formatt")
+  ament_clang_format(CONFIG_FILE "${PROJECT_SOURCE_DIR}/.clang-format")
   find_package(ament_cmake_xmllint REQUIRED)
   ament_xmllint()
 
@@ -106,7 +106,7 @@ endif()
 ## --------------------------------------------------------------
 
 install(
-  TARGETS F4FROS2Template_ROS2TemplateComponent
+  TARGETS ROS2PKGTemplate_ROS2TemplateComponent
   EXPORT export_${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
