@@ -20,8 +20,8 @@ windows:
       layout: tiled
       panes:
         - history:
-            - history -s "ros2 launch f4f_ros2_template ros2_template.launch.py"
-            - history -s "ros2 launch f4f_ros2_template ros2_template.launch.xml"
+            - history -s "ros2 launch ros2_pkg_template ros2_template.launch.py"
+            - history -s "ros2 launch ros2_pkg_template ros2_template.launch.xml"
         - echo:
             - sleep 3
             - ros2 topic echo /$UAV_NAME/ros2_pkg_template/greetings
