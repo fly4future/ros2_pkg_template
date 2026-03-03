@@ -13,8 +13,8 @@ export TMUX_SOCKET_NAME=f4f
 tmuxinator start -p ./session.yaml
 
 # if we are not in tmux attach to the session, otherwise switch to it
-if [ -z $TMUX ]; then
-    tmux -L $TMUX_SOCKET_NAME a -t $TMUX_SESSION_NAME
+if [ -z "${TMUX:-}" ]; then
+    tmux -L "$TMUX_SOCKET_NAME" a -t "$TMUX_SESSION_NAME"
 else
-    tmux detach-client -E "tmux -L $TMUX_SOCKET_NAME a -t $TMUX_SESSION_NAME"
+    tmux detach-client -E "tmux -L \"$TMUX_SOCKET_NAME\" a -t \"$TMUX_SESSION_NAME\""
 fi
