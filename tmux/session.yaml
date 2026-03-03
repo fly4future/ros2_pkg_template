@@ -19,7 +19,7 @@ windows:
   - ros2_pkg_template:
       layout: tiled
       panes:
-        - history:
+        - launch:
             - history -s "ros2 launch ros2_pkg_template ros2_template.launch.py"
             - history -s "ros2 launch ros2_pkg_template ros2_template.launch.xml"
         - echo:
