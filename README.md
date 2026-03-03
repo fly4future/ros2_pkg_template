@@ -103,7 +103,7 @@ cd ros2_pkg_template/tmux
 ./start.sh
 ```
 
-You should see a 4-window split layout. The **top-left** window is running the main node, telling you that a permit to start publishing is `false`. If you jump to the window below (using either `tmux` binding <kbd>Ctrl</kbd>+<kbd>a</kbd>/<kbd>Ctrl</kbd>+<kbd>b</kbd> or from Linux setup <kbd>Ctrl</kbd>+<kbd>h</kbd>,<kbd>j</kbd>,<kbd>k</kbd>,<kbd>l</kbd>) and **pull** the command from history with <kbd>^</kbd>, you can allow publishing using a trigger service call. The top-right window is echoing the publishing topic, and you should see a message being received. To stop the publishing, use the service call prepared on the last remaining window.
+You should see a tmux session with two windows: `router` (a single pane) and `ros2_pkg_template` (split into three panes). The **top-left** window is running the main node, telling you that a permit to start publishing is `false`. If you jump to the window below (using either `tmux` binding <kbd>Ctrl</kbd>+<kbd>a</kbd>/<kbd>Ctrl</kbd>+<kbd>b</kbd> or from Linux setup <kbd>Ctrl</kbd>+<kbd>h</kbd>,<kbd>j</kbd>,<kbd>k</kbd>,<kbd>l</kbd>) and **pull** the command from history with <kbd>^</kbd>, you can allow publishing using a trigger service call. The top-right window is echoing the publishing topic, and you should see a message being received. To stop the publishing, use the service call prepared on the last remaining window.
 
 To kill the session press <kbd>Ctrl</kbd> + <kbd>a</kbd> then <kbd>k</kbd> for kill, then <kbd>9</kbd> for this session.
 
