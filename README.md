@@ -71,6 +71,26 @@ You can use this space to show useful examples of how a project can be used. Add
 > [!IMPORTANT]
 > For more examples, please refer to the [Documentation](https://fly4future.github.io/ros2_pkg_template/).
 
+### ROS interfaces
+
+#### Messages
+
+| Type | Description |
+| ---- | ----------- |
+|      |             |
+
+#### Services
+
+| Type | Description |
+| ---- | ----------- |
+|      |             |
+
+#### Actions
+
+| Type | Description |
+| ---- | ----------- |
+|      |             |
+
 ## About the Template
 
 ## (!REMOVE THIS SECTION WHEN YOU START YOUR OWN PACKAGE)
@@ -88,7 +108,7 @@ This package is primarily intended to be used as a helper template to start your
   - Replace the name, description, maintainer, and other fields with your own content. You can also add/remove dependencies as needed.
 - `CMakeLists.txt`
   - Replace the project name and other fields with your own content. You can also add/remove dependencies and targets as needed.
-- `src`, `include`, `config` and `launch` folders
+- `src`, `include`, `config`, and `launch` folders
   - Delete the existing files and replace them with your own code, config, and launch files. You can also keep some of the files if you find them useful for your package.
 - `tmux/` folder
   - Replace the `TMUX_SESSION_NAME` in `start.sh` and `kill.sh` with the name of your package or something relevant to your project. You also need to replace the `name` and `socket_name` fields in `session.yaml` with the same name.
@@ -105,7 +125,7 @@ cd ros2_pkg_template/tmux
 
 You should see a tmux session with two windows: `router` (a single pane) and `ros2_pkg_template` (split into three panes). The **top-left** window is running the main node, telling you that a permit to start publishing is `false`. If you jump to the window below (using either `tmux` binding <kbd>Ctrl</kbd>+<kbd>a</kbd>/<kbd>Ctrl</kbd>+<kbd>b</kbd> or from Linux setup <kbd>Ctrl</kbd>+<kbd>h</kbd>,<kbd>j</kbd>,<kbd>k</kbd>,<kbd>l</kbd>) and **pull** the command from history with <kbd>^</kbd>, you can allow publishing using a trigger service call. The top-right window is echoing the publishing topic, and you should see a message being received. To stop the publishing, use the service call prepared on the last remaining window.
 
-To kill the session press <kbd>Ctrl</kbd> + <kbd>a</kbd> then <kbd>k</kbd> for kill, then <kbd>9</kbd> for this session.
+To kill the session, press <kbd>Ctrl</kbd> + <kbd>a</kbd> then <kbd>k</kbd> for kill, then <kbd>9</kbd> for this session.
 
 ### What's inside this Package
 
