@@ -19,8 +19,9 @@ AllowShortLoopsOnASingleLine: false
 AlwaysBreakTemplateDeclarations: true
 BreakBeforeBinaryOperators: false
 BreakBeforeBraces: Custom
-BreakConstructorInitializers: BeforeColon
+BreakConstructorInitializers: BeforeComma
 
+IndentCaseLabels: true
 KeepEmptyLinesAtTheStartOfBlocks: true
 NamespaceIndentation: None
 SortIncludes: false
