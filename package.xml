@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-
-  <name>f4f_ros2_template</name>
-  <version>2.0.0</version>
-  <description>F4F ROS2 Template</description>
+  <name>ros2_pkg_template</name>
+  <version>1.0.0</version>
+  <description>ROS2 Template</description>
 
   <maintainer email="your.mail@fly4future.com">Your Name</maintainer>
 
@@ -30,5 +29,4 @@
   <export>
     <build_type>ament_cmake</build_type>
   </export>
-
 </package>

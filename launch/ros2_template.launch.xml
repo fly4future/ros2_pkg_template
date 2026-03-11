@@ -4,12 +4,10 @@
   <arg name="use_sim_time" default="$(env USE_SIM_TIME false)" />
 
   <node_container pkg="rclcpp_components" exec="component_container_mt" name="ros2_template_container" namespace="$(var uav_name)" output="screen" args="--ros-args --log-level $(var log_level)">
-    
-    <composable_node pkg="f4f_ros2_template" plugin="f4f_ros2_template::ROS2Template" name="ros2_template" namespace="$(var uav_name)">
-      
+    <composable_node pkg="ros2_pkg_template" plugin="ros2_pkg_template::ROS2Template" name="ros2_template" namespace="$(var uav_name)">
       <param name="uav_name" value="$(var uav_name)" />
       <param name="use_sim_time" value="$(var use_sim_time)" />
-      <param name="config" value="$(find-pkg-share f4f_ros2_template)/config/ros2_template.yaml" />
+      <param name="config" value="$(find-pkg-share ros2_pkg_template)/config/ros2_template.yaml" />
 
       <remap from="~/hello_world_in" to="~/greetings" />
       <remap from="~/hello_world_out" to="~/greetings" />
@@ -17,7 +15,6 @@
       <remap from="~/stop_publishing_in" to="~/ban_publishing" />
       <remap from="~/start_publishing_out" to="~/allow_publishing" />
       <remap from="~/stop_publishing_out" to="~/ban_publishing" />
-      
     </composable_node>
   </node_container>
 </launch>

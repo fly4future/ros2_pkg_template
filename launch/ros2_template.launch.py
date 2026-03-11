@@ -21,7 +21,7 @@ def generate_launch_description():
 
     ld = launch.LaunchDescription()
 
-    pkg_name = "f4f_ros2_template"
+    pkg_name = "ros2_pkg_template"
 
     this_pkg_path = get_package_share_directory(pkg_name)
 
@@ -72,7 +72,7 @@ def generate_launch_description():
     ros2_template_node = ComposableNode(
 
             package=pkg_name,
-            plugin='f4f_ros2_template::ROS2Template',
+            plugin='ros2_pkg_template::ROS2Template',
             namespace=uav_name,
             name='ros2_template',
             parameters=[

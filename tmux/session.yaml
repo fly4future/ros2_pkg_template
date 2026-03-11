@@ -1,10 +1,14 @@
-# do not modify these
 root: ./
-name: ros2_template
-socket_name: mrs
+name: ros2_pkg_template
+socket_name: f4f
 attach: false
-startup_window: status
-pre_window: 
+
+enable_pane_titles: true
+pane_title_position: top
+pane_title_format: "[ #T ]"
+
+startup_window: router
+pre_window:
   - export UAV_NAME=uav1
   - export RMW_IMPLEMENTATION=rmw_zenoh_cpp
 windows:
@@ -12,11 +16,15 @@ windows:
       layout: tiled
       panes:
         - ros2 run rmw_zenoh_cpp rmw_zenohd
-  - f4f_ros2_template:
+  - ros2_pkg_template:
       layout: tiled
       panes:
-        # - ros2 launch f4f_ros2_template ros2_template.launch.py
-        - ros2 launch f4f_ros2_template ros2_template.launch.xml
-        - sleep 3; ros2 topic echo /$UAV_NAME/ros2_template/greetings
-        - 'history -s ros2 service call /$UAV_NAME/ros2_template/allow_publishing std_srvs/srv/Trigger {}'
-        - 'history -s ros2 service call /$UAV_NAME/ros2_template/ban_publishing std_srvs/srv/Trigger {}'
+        - launch:
+            - history -s "ros2 launch ros2_pkg_template ros2_template.launch.py"
+            - history -s "ros2 launch ros2_pkg_template ros2_template.launch.xml"
+        - echo:
+            - sleep 3
+            - ros2 topic echo /$UAV_NAME/ros2_pkg_template/greetings
+        - services:
+            - history -s "ros2 service call /$UAV_NAME/ros2_pkg_template/allow_publishing std_srvs/srv/Trigger {}"
+            - history -s "ros2 service call /$UAV_NAME/ros2_pkg_template/ban_publishing std_srvs/srv/Trigger {}"

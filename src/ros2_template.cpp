@@ -38,7 +38,7 @@ typedef mrs_lib::ROSTimer TimerType;
 typedef mrs_lib::ThreadTimer TimerType;
 #endif
 
-namespace f4f_ros2_template
+namespace ros2_pkg_template
 {
 
 
@@ -106,7 +106,7 @@ private:
 
 /* ROS2Template() //{ */
 
-ROS2Template::ROS2Template(rclcpp::NodeOptions options) : Node("f4f_ros2_template", options) {
+ROS2Template::ROS2Template(rclcpp::NodeOptions options) : Node("ros2_pkg_template", options) {
   initialize();
 }
 
@@ -361,7 +361,7 @@ bool ROS2Template::callbackStopPublishing([[maybe_unused]] const std::shared_ptr
 // // --------------------------------------------------------------
 
 
-} // namespace f4f_ros2_template
+} // namespace ros2_pkg_template
 
 #include <rclcpp_components/register_node_macro.hpp>
-RCLCPP_COMPONENTS_REGISTER_NODE(f4f_ros2_template::ROS2Template)
+RCLCPP_COMPONENTS_REGISTER_NODE(ros2_pkg_template::ROS2Template)
